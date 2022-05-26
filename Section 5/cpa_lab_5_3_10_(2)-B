@@ -67,7 +67,7 @@ string command = "";
 while (command != "quit")
 {
 booking.printStatus();
-cout << "What would you like to do?: ";
+cout << "\n" << "What would you like to do?: ";
 		cin >> command;
 		if (command == "quit")
 			break;
