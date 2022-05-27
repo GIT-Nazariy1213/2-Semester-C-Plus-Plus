@@ -1,0 +1,91 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class IPAddress
+{
+protected:
+	string addressIP;
+public:
+	IPAddress(string ip)
+	{
+		this -> addressIP = ip;
+	}
+	virtual void print();
+};
+
+void IPAddress::print()
+{
+	cout << this -> addressIP;
+}
+
+class IPAddressChecked : public IPAddress
+{
+private:
+	bool verify;
+public:
+	IPAddressChecked(string ip) : IPAddress(ip) 
+	{ }
+	void print() override
+	{
+		IPAddress::print();
+		vector<string> conversion;
+		string str;
+		for (int i = 0; i < addressIP.length(); i++) {
+		    if(addressIP[i] == '.'){
+		       conversion.push_back(str);
+		       str = "";
+		       continue;
+		    } 
+		    str += addressIP[i];
+		    if(1 + i == addressIP.length())conversion.push_back(str);
+		}
+		if (conversion.size() != 4)
+		{
+			this -> verify = false;
+		}
+		else
+		{
+			for (int i = 0; i < conversion.size(); i++)
+			{
+				if (atoi(conversion[i].c_str()) < 0 || atoi(conversion[i].c_str()) > 255)
+				{
+					this -> verify = false;
+					break;
+				}
+				this -> verify = true;
+			}
+		}
+	if (this -> verify)
+	cout << " - Correct";
+	else
+	cout << " - Not correct";
+	}
+};
+
+int main()
+{
+    string firstIP, secondIP, thirdIP;
+	
+	cout << "Enter the first ip-address: ";
+	cin >> firstIP;
+	
+	IPAddress* first = new IPAddress(firstIP);
+	first -> print();
+	
+	cout << "\n Enter the second ip-address: ";
+	cin >> secondIP;
+	
+	IPAddressChecked* second = new IPAddressChecked(secondIP);
+	second -> print();
+	
+	cout << "\n Enter the third ip-address: ";
+	cin >>thirdIP;
+	
+	IPAddressChecked* third = new IPAddressChecked(thirdIP);
+	third -> print();
+	
+    return 0;
+}
